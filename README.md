@@ -63,7 +63,7 @@ Example
 crontab(5)
 entry to alert on newly registered domains.
 
-	0 6 * * * /bin/sh /home/neo/fdomains -m neo@example.com -u example.com
+	0 6 * * * /bin/sh /home/neo/bin/fdomains -m neo@example.com -u example.com
 
 ### SEE ALSO
 
