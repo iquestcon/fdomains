@@ -85,13 +85,13 @@ for domain in ${domains}; do
 		sort ${outfile} ${archive} | uniq -u > ${tmpfile}
 
 		if [ -s "${tmpfile}" ]; then
-			cp -- ${outfile} ${archive}
-			cp -- ${tmpfile} ${outfile}
+			mv -- ${outfile} ${archive}
+			mv -- ${tmpfile} ${outfile}
 		else
 			echo "no change" > ${outfile}
 		fi
 	else
-		cp -- ${outfile} ${archive}
+		mv -- ${outfile} ${archive}
 	fi
 
 	if [ "${mflag:-false}" = "true" ]; then
