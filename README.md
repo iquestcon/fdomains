@@ -59,7 +59,7 @@ Display all results to the terminal.
 	cxample.com
 	...
 
-Example
+Daily
 crontab(5)
 entry to alert on newly registered domains.
 
