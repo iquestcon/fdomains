@@ -1,0 +1,86 @@
+.\"
+.\"Copyright (c) 2021 Sean Davies <sean@city17.org>
+.\"
+.\"Permission to use, copy, modify, and distribute this software for any
+.\"purpose with or without fee is hereby granted, provided that the above
+.\"copyright notice and this permission notice appear in all copies.
+.\"
+.\"THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+.\"WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+.\"MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+.\"ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+.\"WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+.\"ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+.\"OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\"
+.Dd $Mdocdate: February 15 2021 $
+.Dt FDOMAINS 1
+.Os
+.Sh NAME
+.Nm fdomains
+.Nd monitor registered fuzzy matched domain names
+.Sh SYNOPSIS
+.Nm
+.Op Fl m Ar recipient
+.Op Fl u
+.Ar domain ...
+.Sh DESCRIPTION
+.Nm
+is a small script that will search and return all the fuzzy domain name
+matches that are registered.
+.Pp
+When run without any options
+.Nm
+will print all matches for each
+.Ar domain
+name passed to
+.Em stdout .
+The output will also be saved to a file which will be updated on each run
+with the complete list of matches.
+.Pp
+The options are as follows:
+.Bl -tag -width Ds
+.It Fl m Ar recipient
+Email output to
+.Ar recipient
+instead of printing to
+.Em stdout .
+.It Fl u
+Only return updates to the saved output file, if it exists.
+.El
+.Sh FILES
+.Bl -tag -width "~/.fdoamins/$domain" -compact
+.It Pa ~/.fdomains/$domain
+Default save location and naming convention.
+.El
+.Sh EXIT STATUS
+.Ex -std
+.Sh EXAMPLES
+Display all results to the terminal.
+.Bd -literal -offset indent
+$ fdomains example.com
+axample.com
+cxamplc.com
+cxample.com
+\&...
+.Ed
+.Pp
+Example
+.Xr crontab 5
+entry to alert on newly registered domains.
+.Bd -literal -offset indent
+0 6 * * * /bin/sh /home/neo/fdomains -m neo@example.com -u example.com
+.Ed
+.Sh SEE ALSO
+.Xr mail 1 ,
+.Xr crontab 5 ,
+.Xr cron 8
+.Sh AUTHORS
+.An Sean Davies Aq Mt sean@city17.org
+.Sh CAVEATS
+.Nm
+replies on the Python package
+.Em dnstwist .
+.Bd -literal -offset indent
+$ pip install --user dnstwist
+.Ed
