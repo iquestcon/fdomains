@@ -75,7 +75,7 @@ for domain in ${domains}; do
 	# "dnstwist -o" cannot append to a file
 	cleanup
 
-	dnstwist -r -f csv -o ${tmpfile} ${domain} 2> ${errfile}
+	dnstwist -r -f csv -o ${tmpfile} ${domain} 2>> ${errfile}
 	[ -s "${tmpfile}" ] || continue
 
 	awk 'BEGIN {FS = ","} {if (NR!=1 && NR!=2) {print $2}}' ${tmpfile} \
