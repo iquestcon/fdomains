@@ -36,7 +36,7 @@ cleanup()
 	done
 }
 
-# include the pyhton user script directory
+# include the python user script directory
 PATH=${PATH}:${HOME}/.local/bin
 if ! command -v > /dev/null dnstwist; then
 	die "${0##*/}: dnstwist: command not found"
