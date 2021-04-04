@@ -43,7 +43,7 @@ fi
 
 trap "cleanup" 0 1 2 3 15
 
-while getopts "m:uv" arg; do
+while getopts "m:u" arg; do
 	case ${arg} in
 	m)	rcpt_to=${OPTARG}
 		mflag=1 ;;
