@@ -16,7 +16,6 @@
 
 outfile=/tmp/${0##*/}.out
 tmpfile=/tmp/${0##*/}.tmp
-errfile=/tmp/${0##*/}.err
 
 die()
 {
@@ -26,7 +25,7 @@ die()
 
 usage()
 {
-	die "usage: ${0##*/} [-m recipient] [-uv] domain ..."
+	die "usage: ${0##*/} [-m recipient] [-u] domain ..."
 }
 
 cleanup()
@@ -49,7 +48,6 @@ while getopts "m:uv" arg; do
 	m)	rcpt_to=${OPTARG}
 		mflag=1 ;;
 	u)	uflag=1 ;;
-	v)	vflag=1 ;;
 	*)	usage ;;
 	esac
 done
@@ -60,11 +58,10 @@ domains="$*"
 for domain in ${domains}; do
 
 	archivedir=${HOME}/.${0##*/}
+	archive=${archivedir}/${domain}
 	if [ ! -d "${archivedir}" ]; then
 		mkdir -- ${archivedir}
 	fi
-
-	archive=${archivedir}/${domain}
 
 	# ignore $uflag if $archive does not exist
 	if [ "${uflag:=0}" -eq 1 ] && [ ! -f "${archive}" ]; then
@@ -74,33 +71,29 @@ for domain in ${domains}; do
 	# `dnstwist -o` cannot append to a file
 	cleanup
 
-	dnstwist -r -f csv -o ${tmpfile} ${domain} 2>> ${errfile}
+	dnstwist -r -f csv -o ${tmpfile} ${domain} || exit 1
 	[ -s "${tmpfile}" ] || continue
 
 	awk 'BEGIN {FS = ","} {if (NR!=1 && NR!=2) {print $2}}' ${tmpfile} \
 	    | sort | grep -v "^$" > ${outfile}
+	[ -s "${outfile}" ] || continue
 
 	if [ "${uflag}" -eq 1 ]; then
 		sort ${outfile} ${archive} | uniq -u > ${tmpfile}
 
 		if [ -s "${tmpfile}" ]; then
-			mv -- ${outfile} ${archive}
-			mv -- ${tmpfile} ${outfile}
+			cp -f -- ${outfile} ${archive}
+			cp -f -- ${tmpfile} ${outfile}
 		else
-			case ${vflag:-0} in
-			1)	echo "no change" > ${outfile} ;;
-			0)	: > ${outfile} ;;
-			esac
+			continue
 		fi
 	else
-		mv -- ${outfile} ${archive}
+		cp -f -- ${outfile} ${archive}
 	fi
 
-	if [ -s "${outfile}" ]; then
-		if [ "${mflag:-0}" -eq 1 ]; then
-			mail -s "${domain} report" ${rcpt_to} < ${outfile}
-		else
-			cat ${outfile}
-		fi
+	if [ "${mflag:-0}" -eq 1 ]; then
+		mail -s "${domain} report" ${rcpt_to} < ${outfile}
+	else
+		cat ${outfile}
 	fi
 done

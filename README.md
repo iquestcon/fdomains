@@ -1,4 +1,4 @@
-FDOMAINS(1) - FreeBSD General Commands Manual
+FDOMAINS(1)
 
 ### NAME
 
@@ -14,14 +14,14 @@ FDOMAINS(1) - FreeBSD General Commands Manual
 ### DESCRIPTION
 
 **fdomains**
-is a small script that will search and return all the fuzzy domain name
-matches that are registered.
+is a utility that will search and return all registered fuzzy matched domain
+names.
 
 When run without any options
 **fdomains**
 will print all matches for each
 *domain*
-name passed to
+to
 *stdout*.
 The output will also be saved to a file which will be updated on each run
 with the complete list of matches.
@@ -37,7 +37,7 @@ The options are as follows:
 
 **-u**
 
-> Only return updates to the saved output file, if it exists.
+> Only return updates to the saved output file.
 
 ### FILES
 
@@ -82,5 +82,3 @@ replies on the Python package
 *dnstwist*.
 
 	$ pip install --user dnstwist
-
-FreeBSD 12.2-RELEASE-p4 - February 15, 2021

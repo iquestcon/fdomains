@@ -26,14 +26,14 @@
 .Ar domain ...
 .Sh DESCRIPTION
 .Nm
-is a small script that will search and return all the fuzzy domain name
-matches that are registered.
+is a utility that will search and return all registered fuzzy matched domain
+names.
 .Pp
 When run without any options
 .Nm
 will print all matches for each
 .Ar domain
-name passed to
+to
 .Em stdout .
 The output will also be saved to a file which will be updated on each run
 with the complete list of matches.
@@ -46,10 +46,10 @@ Email output to
 instead of printing to
 .Em stdout .
 .It Fl u
-Only return updates to the saved output file, if it exists.
+Only return updates to the saved output file.
 .El
 .Sh FILES
-.Bl -tag -width "~/.fdoamins/$domain" -compact
+.Bl -tag -width "~/.fdomains/$domain" -compact
 .It Pa ~/.fdomains/$domain
 Default save location and naming convention.
 .El
